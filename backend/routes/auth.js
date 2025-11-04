@@ -10,4 +10,9 @@ router.post('/signup', [
   check('role', 'Role must be Student or Employer').isIn(['Student', 'Employer']),
 ], authController.signup);
 
+router.post('/login', [
+  check('email', 'Include a valid email').isEmail(),
+  check('password', 'Password is required').exists(),
+], authController.login);
+
 module.exports = router;
