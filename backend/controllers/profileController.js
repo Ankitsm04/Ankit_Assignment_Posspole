@@ -1,5 +1,6 @@
 const ProfileStudent = require('../models/ProfileStudent');
 const ProfileEmployer = require('../models/ProfileEmployer');
+const ProfileAdmin = require('../models/ProfileAdmin')
 
 exports.getProfile = async (req, res) => {
   try {
@@ -8,7 +9,9 @@ exports.getProfile = async (req, res) => {
       profile = await ProfileStudent.findOne({ user: req.user.id });
     } else if (req.user.role === 'Employer') {
       profile = await ProfileEmployer.findOne({ user: req.user.id });
-    } else {
+    } else if (req.user.role === 'Admin') {
+      profile = await ProfileAdmin.findOne({ user: req.user.id });
+    }else {
       return res.status(400).json({ msg: 'Invalid user role' });
     }
     if (!profile) return res.status(404).json({ msg: 'Profile not found' });
@@ -31,6 +34,12 @@ exports.updateProfile = async (req, res) => {
       );
     } else if (req.user.role === 'Employer') {
       profile = await ProfileEmployer.findOneAndUpdate(
+        { user: req.user.id },
+        req.body,
+        { new: true, upsert: true }
+      );
+    } else if (req.user.role === 'Admin') {
+      profile = await ProfileAdmin.findOneAndUpdate(  // new branch
         { user: req.user.id },
         req.body,
         { new: true, upsert: true }

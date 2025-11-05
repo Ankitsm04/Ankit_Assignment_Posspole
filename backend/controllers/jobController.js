@@ -61,10 +61,16 @@ exports.deleteJob = async (req, res) => {
 
 exports.getAllJobs = async (req, res) => {
   try {
-    const jobs = await Job.find().sort({ createdAt: -1 });
+    const filter = {};
+    if (req.query.location) filter.location = req.query.location;
+    if (req.query.jobType) filter.jobType = req.query.jobType;
+    if (req.query.companyName) filter.companyName = req.query.companyName;
+
+    const jobs = await Job.find(filter).sort({ createdAt: -1 });
     res.json(jobs);
-  } catch (error) {
-    console.error(error.message);
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ msg: 'Server error' });
   }
 };
+
