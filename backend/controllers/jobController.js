@@ -74,3 +74,13 @@ exports.getAllJobs = async (req, res) => {
   }
 };
 
+exports.getJob = async (req, res) => {
+  const jobId = req.params.id;
+  try{
+    const job = await Job.findById(jobId);
+    res.json(job);
+  } catch(err){
+    res.status(500).json({ msg: 'Server error'})
+  }
+}
+

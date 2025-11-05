@@ -39,7 +39,7 @@ exports.updateProfile = async (req, res) => {
         { new: true, upsert: true }
       );
     } else if (req.user.role === 'Admin') {
-      profile = await ProfileAdmin.findOneAndUpdate(  // new branch
+      profile = await ProfileAdmin.findOneAndUpdate(
         { user: req.user.id },
         req.body,
         { new: true, upsert: true }

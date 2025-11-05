@@ -83,3 +83,8 @@ exports.getDashboardStats = async (req,res) => {
   } catch(error){
   }
 }
+
+exports.logout = (req, res) => {
+  res.clearCookie('token');
+  res.status(200).json({ msg: 'Logged out successfully' });
+};

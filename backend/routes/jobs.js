@@ -7,5 +7,6 @@ router.post('/', protect, authorizeRoles(['Employer']), jobController.addJob);
 router.put('/:id', protect, authorizeRoles(['Employer']), jobController.editJob);
 router.delete('/:id', protect, authorizeRoles(['Employer']), jobController.deleteJob);
 router.get('/', jobController.getAllJobs);
+router.get('/:id', jobController.getJob);
 
 module.exports = router;
