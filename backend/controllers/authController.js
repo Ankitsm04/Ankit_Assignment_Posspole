@@ -1,4 +1,6 @@
 const User = require('../models/User');
+const Job = require('../models/Job');
+const Application = require('../models/Application');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
@@ -62,3 +64,22 @@ exports.login = async (req, res) => {
   }
 };
 
+exports.getDashboardStats = async (req,res) => {
+  try{
+    const studentCount = await User.countDocuments({role: 'Student'});
+    const employerCount = await User.countDocuments({role : 'Employer'});
+    const jobCount = await Job.countDocuments();
+    const applicationCount = await Application.countDocuments({role : 'Employer'});
+    
+    const fullTimeJobs = await Job.countDocuments({jobType : 'Full-time'});
+    const internshipJobs = await Job.countDocuments({jobType : 'Internship'});
+
+    res.json({
+      user: {student: studentCount, employers: employerCount },
+      jobs : jobCount,
+      applications: applicationCount,
+      jobCategories: { fullTime: fullTimeJobs, internships: internshipJobs }
+    });  
+  } catch(error){
+  }
+}
