@@ -22,6 +22,7 @@ app.use('/api/profile', profileRoutes);
 app.use('/api/jobs', jobRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/uploads', express.static('uploads'));
 
 app.get('/', (req, res) => {
   res.json({ message: 'API running' });
